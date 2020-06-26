@@ -1,7 +1,6 @@
 from params import *
 from utils import *
 from shared_pow import *
-from magic_filter import *
 from compress import *
 
 old_nonce_results = [[1365061047, b'\xb7-]Q', 0.25, 0.015625]]
@@ -35,18 +34,24 @@ TEST_WORDS = buf_to_chunks(test_rand_bv)
 
 TEST_GCS_TABLE = add_words_to_filter(TEST_WORDS)
 
+test_sc = get_sc()
+
+
+"""
 print(len(TEST_GCS_TABLE))
 
 print(WORD_NO)
 
 print(EDGE_NO)
 
-exit()
+#exit()
 
-test_sc = get_sc()
+print()
 
 
-"""
+
+
+
 gcs_table, accurate_chksum, fuzzy_chksum, node_list, candidate_no_list = compress(test_sc, test_rand_bv, CLUSTER_CORE_NO)
 
 print(candidate_no_list)
@@ -64,6 +69,7 @@ print(AVG_EDGE_CANDIDATES)
 
 exit()
 """
+
 
 
 candidate_no_list = [74, 64, 59, 63, 55, 63, 71, 57, 64, 60, 70, 77, 68, 52, 71, 56, 63, 73, 72, 61, 65, 71, 58, 73, 72, 54, 62, 57, 70, 66, 61, 70, 73, 68, 83, 59, 58, 73, 70, 64, 68, 65, 69, 74, 70, 54, 68, 61, 65, 66, 56, 69, 68, 65, 56, 62, 58, 60, 64, 56, 58, 53, 68, 67, 73, 57, 64, 66, 63, 76, 72, 61, 82, 62, 53, 52, 78, 68, 63, 68, 65, 63, 57, 74, 56, 69, 79, 75, 68, 60, 74, 76, 71, 60, 70, 69, 74, 50, 68, 70, 61, 62, 73, 56, 62, 63, 64, 75, 78, 60, 61, 76, 73, 65, 68, 69, 61, 60, 69, 76, 64, 81, 59, 72, 72, 75, 63, 51, 85, 61, 59, 64, 71, 66, 72, 63, 57, 71, 75, 64, 65, 65, 60, 57, 75, 61, 79, 46, 67, 69, 67, 55, 58, 67, 75, 65, 51, 57, 66, 59, 50, 64, 57, 63, 74, 53, 51, 63, 60, 66, 64, 60, 58, 77, 77, 63, 63, 54, 73, 71, 68, 61, 83, 70, 71, 75, 79, 76, 72, 68, 71, 68, 58, 75, 64, 57, 57, 64, 82, 65, 60, 45, 73, 68, 63, 61, 75, 56, 62, 66, 72, 72, 77, 73, 77, 66, 54, 60, 70, 71, 69, 62, 69, 71, 50, 57, 63, 68, 60, 67, 66, 76, 56, 68, 63, 65, 75, 72, 70, 71, 58, 76, 71, 73, 71, 58, 63, 72, 77, 84, 61, 61, 66, 60, 67, 62, 65, 72, 64, 55, 69, 59, 66, 80, 63, 67, 67, 59, 73, 71, 70, 68, 65, 55, 63, 68, 59, 58, 59, 64, 66, 72, 72, 63, 69, 63, 66, 66, 58, 60, 63, 60, 84, 73, 72, 64, 58, 69, 63, 66, 61, 75, 65, 62, 60, 61, 79, 58, 55, 70, 74, 74, 64, 62, 68, 69, 61, 64, 51, 68, 62, 76, 72, 64, 68, 65, 67, 60, 67, 60, 61, 60, 70, 65, 62, 72, 85, 59, 50, 68, 65, 58, 61, 60, 54, 56, 54, 59, 61, 51, 71, 67, 70, 71, 55, 72, 61, 65, 64, 60, 59, 61, 48, 61, 66, 63, 71, 63, 65, 80, 66, 82, 73, 68, 54, 75, 68, 61, 56, 67, 82, 56, 68, 73, 62, 72, 48, 53, 56, 65, 57, 59, 59, 62, 64, 78, 66, 61, 72, 55, 56, 60, 67, 60, 65, 62, 47, 52, 63, 68, 57, 69, 69, 72, 53, 72, 62, 64, 76, 50, 68, 65, 70, 66, 75, 68, 67, 72, 63, 64, 70, 55, 68, 67, 80, 75, 59, 65, 62, 79, 63, 73, 61, 75, 66, 61, 67, 71, 68, 64, 58, 63, 82, 66, 60, 73, 57, 62, 60, 63, 59, 67, 65, 61, 54, 60, 61, 69, 61, 68, 83, 63, 72, 63, 69, 57, 67, 66, 80, 64, 62, 46]
@@ -96,7 +102,7 @@ exit()
 
 """
 
-"""
+
 nonce_list = []
 fieldless_list = []
 set_last_hash = b"init"
@@ -127,16 +133,16 @@ for set_offset in range(0, SET_NO):
 
 
 
-#print(nonce_list)
+print(nonce_list)
 
 print(edge_hashes)
-"""
+
+
+exit()
 
 
 
-
-
-nonces = [[1044355555, b'\xe3\x99?>', 8.0, 0.5, 8, 6], [2899788880, b'PD\xd7\xac', 8.0, 0.5, 1, 0], [784060060, b'\x9c\xce\xbb.', 8.0, 0.5, 2, 1], [4192945908, b'\xf4F\xeb\xf9', 8.0, 0.5, 6, 1], [1645709622, b'6\x89\x17b', 8.0, 0.5, 4, 6], [1187207087, b'\xafW\xc3F', 8.0, 0.5, 4, 0], [2973343122, b'\x92\x9d9\xb1', 8.0, 0.5, 4, 1], [163170762, b'\xca\xc9\xb9\t', 8.0, 0.5, 3, 4], [693856640, b'\x80i[)', 8.0, 0.5, 4, 0], [870588066, b'\xa2\x1e\xe43', 8.0, 0.5, 3, 2], [4286417330, b'\xb2\x89}\xff', 8.0, 0.5, 6, 1], [1713078412, b'\x8c\x80\x1bf', 8.0, 0.5, 5, 0], [166142981, b'\x05$\xe7\t', 8.0, 0.5, 3, 0], [2838046601, b"\x89')\xa9", 8.0, 0.5, 8, 0], [780633642, b'*\x86\x87.', 8.0, 0.5, 2, 0], [521664485, b'\xe5\xf7\x17\x1f', 8.0, 0.5, 1, 4], [660652026, b"\xfa\xbf`'", 8.0, 0.5, 1, 0], [192460537, b'\xf9\xb6x\x0b', 8.0, 0.5, 6, 0], [1400970051, b'C\x1b\x81S', 8.0, 0.5, 4, 1], [1279413774, b'\x0eNBL', 8.0, 0.5, 3, 0], [1724860836, b'\xa4I\xcff', 8.0, 0.5, 5, 0], [2866862507, b'\xab\xd9\xe0\xaa', 8.0, 0.5, 3, 1], [2700024884, b'4\x1c\xef\xa0', 8.0, 0.5, 3, 1], [1291457918, b'~\x15\xfaL', 8.0, 0.5, 4, 0], [807320515, b'\xc3\xbb\x1e0', 8.0, 0.5, 7, 0], [1350344109, b'\xad\x9d|P', 8.0, 0.5, 2, 1], [3615730463, b'\x1f\xab\x83\xd7', 8.0, 0.5, 3, 1], [2012579342, b'\x0e\x86\xf5w', 8.0, 0.5, 3, 0], [1117543052, b'\x8cZ\x9cB', 8.0, 0.5, 5, 2], [2299783669, b'\xf5\xe9\x13\x89', 8.0, 0.5, 2, 0], [2360042970, b'\xdae\xab\x8c', 8.0, 0.5, 3, 0], [760268037, b'\x05\xc5P-', 8.0, 0.5, 2, 1], [2170048726, b'\xd6PX\x81', 8.0, 0.5, 5, 1], [1132088118, b'6KzC', 8.0, 0.5, 4, 3], [2159860720, b'\xf0\xdb\xbc\x80', 8.0, 0.5, 4, 4], [3503515179, b'+f\xd3\xd0', 8.0, 0.5, 6, 1], [19520575, b'?\xdc)\x01', 8.0, 0.5, 5, 0], [317185419, b'\x8b\xdd\xe7\x12', 8.0, 0.5, 4, 3], [875624483, b'#\xf804', 8.0, 0.5, 8, 0], [1425500133, b'\xe5g\xf7T', 8.0, 0.5, 6, 0], [552226050, b'\x02M\xea ', 8.0, 0.5, 1, 2], [2040731647, b'\xff\x17\xa3y', 8.0, 0.5, 8, 0], [356727306, b'\n:C\x15', 8.0, 0.5, 3, 0], [3271742456, b'\xf8\xd3\x02\xc3', 8.0, 0.5, 4, 1], [4247053968, b'\x90\xe6$\xfd', 8.0, 0.5, 5, 1], [4284523913, b'\x89\xa5`\xff', 8.0, 0.5, 4, 0], [644296069, b'\x85-g&', 8.0, 0.5, 2, 0], [3064810406, b'\xa6K\xad\xb6', 8.0, 0.5, 4, 0], [3396669693, b'\xfd\x10u\xca', 8.0, 0.5, 5, 0], [1392663096, b'8Z\x02S', 8.0, 0.5, 4, 0], [1379849433, b'\xd9\xd4>R', 8.0, 0.5, 5, 3], [430794326, b'Vf\xad\x19', 8.0, 0.5, 7, 1], [1553139711, b'\xff\x07\x93\\', 8.0, 0.5, 3, 1], [993152558, b'.N2;', 8.0, 0.5, 4, 0], [3751928366, b'.\xe2\xa1\xdf', 8.0, 0.5, 5, 1], [245500751, b'O\x0b\xa2\x0e', 8.0, 0.5, 5, 1], [1632462609, b'\x11gMa', 8.0, 0.5, 1, 1], [2765410577, b'\x11\xd1\xd4\xa4', 8.0, 0.5, 4, 0], [2649784729, b'\x99\x81\xf0\x9d', 8.0, 0.5, 4, 3], [1192146922, b'\xea\xb7\x0eG', 8.0, 0.5, 4, 0], None]
+nonces = [[594823907, b'\xe3Jt#', 32.0, 2.0, 4, 8, 8, 0], [3151049747, b'\x134\xd1\xbb', 0.0625, 0.00390625, 1, 4, 5, 0], [1999330383, b'O\\+w', 64.0, 4.0, 2, 3, 6, 0], [1586490140, b'\x1c\xeb\x8f^', 64.0, 4.0, 6, 8, 4, 5], [3937334909, b'}\xf6\xae\xea', 4096.0, 256.0, 3, 8, 3, 1], [2352023614, b'>\x081\x8c', 4096.0, 256.0, 3, 4, 4, 0], [306181223, b'g\xf4?\x12', 32.0, 2.0, 2, 6, 3, 2], [690285751, b'\xb7\xec$)', 32768.0, 2048.0, 2, 5, 8, 3], [2915789122, b'Bi\xcb\xad', 4.0, 0.25, 3, 6, 4, 0], [1201971040, b'`\x9f\xa4G', 512.0, 32.0, 1, 7, 3, 3], [79282107, b'\xbb\xbf\xb9\x04', 256.0, 16.0, 2, 5, 4, 0], [3046110638, b'\xae\xf5\x8f\xb5', 128.0, 8.0, 1, 8, 3, 0], [26180787, b'\xb3|\x8f\x01', 128.0, 8.0, 5, 3, 8, 2], [2948416792, b'\x18E\xbd\xaf', 64.0, 4.0, 3, 3, 7, 3], [3119034849, b'\xe1\xb1\xe8\xb9', 32768.0, 2048.0, 2, 6, 4, 1], [503908273, b'\xb1\x07\t\x1e', 64.0, 4.0, 1, 3, 6, 1], [415708573, b'\x9d5\xc7\x18', 64.0, 4.0, 1, 4, 4, 1], [3374660669, b'=<%\xc9', 16384.0, 1024.0, 7, 4, 5, 0], [178978191, b'\x8f\xfd\xaa\n', 65536.0, 4096.0, 1, 5, 5, 2], [236448577, b'A\xeb\x17\x0e', 128.0, 8.0, 1, 3, 6, 5], [1483949767, b'\xc7FsX', 512.0, 32.0, 3, 6, 5, 2], [1278453142, b'\x96\xa53L', 1024.0, 64.0, 1, 3, 8, 0], [399455682, b'\xc25\xcf\x17', 32.0, 2.0, 1, 3, 8, 0], [640990860, b'\x8c\xbe4&', 256.0, 16.0, 1, 5, 8, 0], [715829560, b'8\xb1\xaa*', 1048576.0, 65536.0, 2, 5, 6, 0], [3248538677, b'5\xc4\xa0\xc1', 1024.0, 64.0, 5, 3, 5, 0], [3554268427, b'\x0b\xd5\xd9\xd3', 2048.0, 128.0, 1, 4, 6, 1], [256471196, b'\x9cpI\x0f', 2048.0, 128.0, 4, 4, 3, 2], [895943954, b'\x12\x05g5', 2048.0, 128.0, 1, 3, 6, 2], [1438242514, b'\xd2\xd6\xb9U', 16.0, 1.0, 8, 7, 3, 1], [4074063781, b'\xa5G\xd5\xf2', 128.0, 8.0, 2, 7, 5, 0], [2531058894, b'\xce\xe4\xdc\x96', 8192.0, 512.0, 1, 6, 3, 0], [3605072868, b'\xe4\x0b\xe1\xd6', 4096.0, 256.0, 1, 3, 4, 0], [1157701820, b'\xbc \x01E', 64.0, 4.0, 1, 3, 6, 0], [3502486964, b'\xb4\xb5\xc3\xd0', 8192.0, 512.0, 1, 4, 6, 1], [2967248139, b'\x0b\x9d\xdc\xb0', 128.0, 8.0, 1, 6, 3, 5], [3736859622, b'\xe6\xf3\xbb\xde', 32.0, 2.0, 3, 4, 6, 1], [3638912448, b'\xc0e\xe5\xd8', 128.0, 8.0, 1, 5, 5, 3], [2658798386, b'2\x0bz\x9e', 131072.0, 8192.0, 5, 5, 6, 0], [3510518748, b'\xdcC>\xd1', 512.0, 32.0, 3, 8, 3, 3], [3784818294, b'v\xbe\x97\xe1', 256.0, 16.0, 5, 7, 4, 2], [1893293864, b'(_\xd9p', 1024.0, 64.0, 2, 8, 4, 0], [3400193237, b'\xd5\xd4\xaa\xca', 32768.0, 2048.0, 3, 4, 8, 0], [3040867926, b'V\xf6?\xb5', 128.0, 8.0, 1, 7, 3, 6], [2940018042, b'z\x1d=\xaf', 32768.0, 2048.0, 2, 3, 7, 0], [665652610, b"\x82\r\xad'", 2048.0, 128.0, 1, 3, 5, 0], [1994473422, b'\xce?\xe1v', 1024.0, 64.0, 3, 8, 3, 4], [80835128, b'8r\xd1\x04', 256.0, 16.0, 2, 5, 3, 1], [1253127156, b'\xf43\xb1J', 1024.0, 64.0, 5, 4, 7, 1], [1356583419, b'\xfb\xd1\xdbP', 1024.0, 64.0, 2, 6, 6, 0], [1379849433, b'\xd9\xd4>R', 8.0, 0.5, 3, 5, 3, 1], [3636665210, b'z\x1b\xc3\xd8', 32.0, 2.0, 1, 6, 6, 0], [1746523681, b'!\xd6\x19h', 512.0, 32.0, 4, 3, 5, 0], [1279129246, b'\x9e\xf6=L', 256.0, 16.0, 1, 3, 5, 0], [2276958503, b"'\xa1\xb7\x87", 128.0, 8.0, 1, 4, 6, 0], [3681419109, b'e\xffm\xdb', 4096.0, 256.0, 2, 5, 3, 0], [706071559, b'\x07\xcc\x15*', 32.0, 2.0, 3, 6, 5, 0], [1151145367, b'\x97\x15\x9dD', 1024.0, 64.0, 1, 3, 4, 1], [2354027982, b'\xce\x9dO\x8c', 64.0, 4.0, 1, 7, 6, 0], [3093402329, b'\xd9\x92a\xb8', 65536.0, 4096.0, 4, 4, 6, 0], None]
 
 
 
@@ -221,7 +227,7 @@ def reduce_set_edges_exec(params):
                     edge_offset_overall = (set_offset * POW_SET_LEN) + edge_offset
                     h_out = compute_edge_hash(edge_offset_overall, node_a, node_b)
                     if edge_offset == 0:
-                        h_out = hashlib.sha1(prev_edge_out + h_out).digest()
+                        h_out = POW_H(prev_edge_out + h_out).digest()
 
 
                     yield h_out
@@ -253,6 +259,8 @@ def reduce_set_edges_exec(params):
             edge_start = start
             edge_stop = stop
             do_print = 0
+        if i == 1:
+            do_print = 0
 
         edge_makers += [closure(cand_a_no, cand_b_no, i, edge_no, edge_start, edge_stop, do_print)]
 
@@ -269,7 +277,7 @@ def reduce_set_edges_exec(params):
         fingerprint = b""
         edge_list = [edge_zero]
         if edge_no == 1:
-            fingerprint = sha1(b"".join(edge_list)).digest()
+            fingerprint = POW_H(b"".join(edge_list)).digest()
 
         #print(edge_zero)
 
@@ -277,27 +285,32 @@ def reduce_set_edges_exec(params):
         #print(out_zero)
         
         if out_zero is None:
-            print("a")
+            #print("a")
             continue
         else:
             target_to_beat, results = save_cumulative_results(edge_list, out_zero, target_to_beat, 0, edge_no - 1, results, result_size)
 
 
+        edge_zero_prefix = lead_zeros(out_zero[0])
+        if edge_zero_prefix != prefix_filter[0]:
+            continue
+
+
         for edge_one in edge_makers[1]():
             edge_list = [edge_zero, edge_one]
             if edge_no == 2:
-                fingerprint = sha1(b"".join(edge_list)).digest()
+                fingerprint = POW_H(b"".join(edge_list)).digest()
 
             out_one = cumulative_pow([nonce, nonce_bytes, edge_one, 1, out_zero[0], out_zero[1], fingerprint, out_zero[3], out_zero[4]])
             if out_one is None:
-                print("b")
+                #print("b")
                 continue
             else:
                 target_to_beat, results = save_cumulative_results(edge_list, out_one, target_to_beat, 1, edge_no - 1, results, result_size)
 
             edge_one_prefix = lead_zeros(out_one[0])
-
-            if edge_one_prefix != prefix_filter[0]:
+            if edge_one_prefix != prefix_filter[1]:
+                #print("skip")
                 continue
 
 
@@ -308,27 +321,25 @@ def reduce_set_edges_exec(params):
             for edge_two in edge_makers[2]():
                 edge_list = [edge_zero, edge_one, edge_two]
                 if edge_no == 3:
-                    fingerprint = sha1(b"".join(edge_list)).digest()
+                    fingerprint = POW_H(b"".join(edge_list)).digest()
 
                 out_two = cumulative_pow([nonce, nonce_bytes, edge_two, 2, out_one[0], out_one[1], fingerprint, out_one[3], out_one[4]])
                 #print(out_two)
                 #exit()
                 if out_two is None:
-                    print("c")
+                    #print("c")
                     continue
                 else:
                     target_to_beat, results = save_cumulative_results(edge_list, out_two, target_to_beat, 2, edge_no - 1, results, result_size)
 
                 edge_two_prefix = lead_zeros(out_two[0])
-
-
-                if edge_two_prefix != prefix_filter[1]:
+                if edge_two_prefix != prefix_filter[2]:
                     continue
+                
 
-                """
-                if edge_one_prefix + edge_two_prefix < 4:
-                    continue
-                """
+                
+                #if edge_zero_prefix + edge_one_prefix + edge_two_prefix < 7:
+                #    continue
 
 
                 for edge_three in edge_makers[3]():
@@ -336,19 +347,23 @@ def reduce_set_edges_exec(params):
 
                     #print(edge_three)
                     if edge_no == 4:
-                        fingerprint = sha1(b"".join(edge_list)).digest()
+                        fingerprint = POW_H(b"".join(edge_list)).digest()
 
                     out_three = cumulative_pow([nonce, nonce_bytes, edge_three, 3, out_two[0], out_two[1], fingerprint, out_two[3], out_two[4]])
 
+                    """
+                    edge_three_prefix = lead_zeros(out_three[0])
+                    if edge_three_prefix != prefix_filter[3]:
+                        continue
+                    """
+
 
                     if out_three is None:
-                        print("d")
+                        #print("d")
                         continue
                     else:
                         #dif = str(out_three[3]).replace(".", "")
                         #out_three[3] = int(dif[:3])
-                        if out_three[3] != 8.0:
-                            continue
 
                         target_to_beat, results = save_cumulative_results(edge_list, out_three, target_to_beat, 3, edge_no - 1, results, result_size)
 
@@ -372,7 +387,7 @@ def reduce_set_edges_controller(sc, usable_cores, candidate_no_list, node_list, 
         col_division = int(col_zero_max / usable_cores)
         nonce = nonce_list[set_offset][0]
 
-        prefix_filter = [nonce_list[set_offset][4], nonce_list[set_offset][5]]
+        prefix_filter = [nonce_list[set_offset][4], nonce_list[set_offset][5], nonce_list[set_offset][6], nonce_list[set_offset][7]]
         type_offset = 8.0
 
         # We don't assume even divisibility.

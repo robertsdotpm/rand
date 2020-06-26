@@ -553,7 +553,7 @@ def compute_edge_hash(edge_offset, node_a, node_b):
 
     # H input is node a, node b = edge.
     h_input = b"%s; %s;" % (txt_a, txt_b)
-    h_out = hashlib.sha1(h_input).digest()
+    h_out = POW_H(h_input).digest()
 
     return h_out
 
@@ -570,7 +570,7 @@ def compute_edge_hash_list(node_list, set_offset, out_edge_hash):
         h_out = compute_edge_hash(edge_offset, node_a, node_b)
         if i == 0:
             # Link together the output of the previous set to form a chain.
-            h_out = hashlib.sha1(out_edge_hash + h_out).digest()
+            h_out = POW_H(out_edge_hash + h_out).digest()
             
         hash_list.append(h_out)
 
@@ -736,7 +736,7 @@ def get_run_time(core_no):
     total += 0
 
 
-def lead_zeros(buf, buf_len=20):
+def lead_zeros(buf, buf_len=POW_H_LEN):
     total_bits = buf_len * 8
     format_str = "{:0" + str(total_bits) + "b}"
     as_int = int.from_bytes(buf, byteorder='big')
@@ -758,21 +758,21 @@ def print_bytes(buf):
 
 def pow_view(nonce_bytes, hash_list):
     prev_bytes = b"b"
-    fingerprint = sha1(hash_list[0] + hash_list[1] + hash_list[2] + hash_list[3]).digest()
+    fingerprint = POW_H(hash_list[0] + hash_list[1] + hash_list[2] + hash_list[3]).digest()
     i = 1
     for hash_value in hash_list:
         print("Hash no = ")
         print(i)
 
         # Pre-filter reduces starting entry no.
-        pow_bytes = sha1(nonce_bytes + hash_value).digest()
+        pow_bytes = POW_H(nonce_bytes + hash_value).digest()
         if USE_PRE_FILTER:
             print("Pre filter = ")
             print_bytes(pow_bytes)
 
         # Do chained filtering second.
         if USE_CHAINED_POW:
-            prev_bytes = pow_bytes = sha1(prev_bytes + pow_bytes).digest()
+            prev_bytes = pow_bytes = POW_H(prev_bytes + pow_bytes).digest()
             print("Chained pow = ")
             print_bytes(pow_bytes)
 
@@ -780,7 +780,7 @@ def pow_view(nonce_bytes, hash_list):
         if USE_INDEP_FILTER:
             if FIXED_INDEP_FILTER:
                 if i == len(hash_list):
-                    pow_bytes = sha1(nonce_bytes + fingerprint).digest() 
+                    pow_bytes = POW_H(nonce_bytes + fingerprint).digest() 
 
                     print("Fixed indep = ")
                     print_bytes(pow_bytes)
@@ -796,8 +796,8 @@ def get_sc():
     sc = SparkContext(SPARK_URI, conf=spark_config) 
     sc.setLogLevel('OFF')
 
-    py_files = ["experiment.py", "golomb_sets.py", "brute_force.py", "compress.py",
-        "decompress.py", "magic_filter.py", "params.py", "shared_pow.py",
+    py_files = ["checksum.py", "experiment.py", "golomb_sets.py", "brute_force.py", "compress.py",
+        "decompress.py", "params.py", "shared_pow.py",
         "utils.py"]
 
     for py_file in py_files:
@@ -852,7 +852,7 @@ def choose_best_nonce(set_nonce_results, set_word_list):
     best_nonce_result = None
     for nonce_result in set_nonce_results:
         nonce_int, nonce_bytes, set_total_out_field, set_total_in_field = nonce_result
-        nonce_hash = hashlib.sha1(nonce_bytes).digest()
+        nonce_hash = POW_H(nonce_bytes).digest()
         valid_words = 0
 
         # Add up number of intersecting words.
@@ -882,16 +882,16 @@ def choose_best_nonce(set_nonce_results, set_word_list):
 
 
 def min_prefixes(nonce_bytes, hash_list):
-    max_zeros = 20 * 8
+    max_zeros = POW_H_LEN * 8
     min_prefixes = [[max_zeros, max_zeros] for i in range(0, POW_SET_LEN)]
     prev_bytes = b"b"
-    fingerprint = sha1(b"".join(hash_list)).digest()
+    fingerprint = POW_H(b"".join(hash_list)).digest()
     hash_offset = 0
     for hash_value in hash_list:
         # Do chained filtering second.
-        pow_bytes = sha1(nonce_bytes + hash_value).digest()
+        pow_bytes = POW_H(nonce_bytes + hash_value).digest()
         if USE_CHAINED_POW:
-            prev_bytes = pow_bytes = sha1(prev_bytes + pow_bytes).digest()
+            prev_bytes = pow_bytes = POW_H(prev_bytes + pow_bytes).digest()
             prefix = lead_zeros(pow_bytes)
             if prefix < min_prefixes[hash_offset][0]:
                 min_prefixes[hash_offset][0] = prefix
@@ -900,7 +900,7 @@ def min_prefixes(nonce_bytes, hash_list):
         if USE_INDEP_FILTER:
             if FIXED_INDEP_FILTER:
                 if hash_offset == len(hash_list) - 1:
-                    pow_bytes = sha1(nonce_bytes + fingerprint).digest()
+                    pow_bytes = POW_H(nonce_bytes + fingerprint).digest()
                     prefix = lead_zeros(pow_bytes)
                     if prefix < min_prefixes[hash_offset][1]:
                         min_prefixes[hash_offset][1] = prefix

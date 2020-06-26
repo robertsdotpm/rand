@@ -10,14 +10,14 @@ def cumulative_pow(params):
     nonce_int, nonce_bytes, hash_value, hash_offset, pow_bytes, prev_bytes, fingerprint, out_total, in_total = params
 
     # Pre-filter reduces starting entry no.
-    pow_bytes = sha1(nonce_bytes + hash_value).digest()
+    pow_bytes = POW_H(nonce_bytes + hash_value).digest()
     if USE_PRE_FILTER:
         if lead_zeros(pow_bytes) < PRE_FILTER_POW_TARGET:
             return None
 
     # Do chained filtering second.
     if USE_CHAINED_POW:
-        prev_bytes = pow_bytes = sha1(prev_bytes + pow_bytes).digest()
+        prev_bytes = pow_bytes = POW_H(prev_bytes + pow_bytes).digest()
         if hash_offset <= POW_SET_LEN - 2:
             prefix_no = lead_zeros(pow_bytes)
             if prefix_no < CHAINED_POW_TARGET:
@@ -26,6 +26,7 @@ def cumulative_pow(params):
             set_change_out_field = calc_set_growth(out_total, prefix_no, CHUNK_SIZE_BITS)
             set_change_out_field = at_least_one(set_change_out_field)
             if set_change_out_field * AVG_EDGE_CANDIDATES > MAX_SET_GROWTH:
+                # Being triggered in our set cide but is this currently valid?
                 return None
             else:
                 out_total = set_change_out_field
@@ -41,7 +42,7 @@ def cumulative_pow(params):
     if USE_INDEP_FILTER:
         if FIXED_INDEP_FILTER:
             if hash_offset == POW_SET_LEN - 1:
-                pow_bytes = sha1(nonce_bytes + fingerprint).digest() 
+                pow_bytes = POW_H(nonce_bytes + fingerprint).digest() 
                 prefix_no = lead_zeros(pow_bytes)
 
                 # Store results if it makes sense.
@@ -79,8 +80,8 @@ def shared_cumulative_pow_exec(params):
     found = 0
 
     past_results = []
-    result_size = 100
-    fingerprint = sha1(b"".join(hash_list)).digest()
+    result_size = 1000
+    fingerprint = POW_H(b"".join(hash_list)).digest()
     target_to_beat = MAX_SET_GROWTH
     for nonce_int in range(start, stop):
         # Initial PoW.
@@ -91,8 +92,8 @@ def shared_cumulative_pow_exec(params):
         # So every element in a set save for the last gets filtered twice.
         prev_bytes = b"b"
         pow_bytes = b""
-        out_field = 0
-        in_field = 0
+        out_total = 0
+        in_total = 0
         last_offset = len(hash_list) - 1
         for hash_offset in range(0, len(hash_list)):
             hash_value = hash_list[hash_offset]

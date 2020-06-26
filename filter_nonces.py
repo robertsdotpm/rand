@@ -33,7 +33,7 @@ def filter_nonces(extended_nonces, edge_hashes):
         set_hashes = edge_hashes[start_offset:stop_offset]
 
         nonce_saved = 0
-        extended_nonce = sorted(extended_nonce, key=lambda k: min_prefixes(k[1], set_hashes)[1][0], reverse=True )
+        extended_nonce = sorted(extended_nonce, key=lambda k: ( min_prefixes(k[1], set_hashes)[1][0] + min_prefixes(k[1], set_hashes)[2][0] ) , reverse=True )
         for nonce_info in extended_nonce:
             result = nonce_info
             nonce_int, nonce_bytes, out_field, in_field = nonce_info
@@ -42,39 +42,63 @@ def filter_nonces(extended_nonces, edge_hashes):
             if nonce_int.bit_length() < 25:
                 continue
 
+            """
             # Check nonce is covered.
             as_key = out_field
             if as_key != 8.0:
                 continue
+            """
 
             """
             if as_key not in TYPE_LIST:
                 continue
             """
+            # Skip nonce prefix details that won't fit in 3 bits.
+            prefix_info = min_prefixes(nonce_bytes, set_hashes)
+            hash_zero_prefix = prefix_info[0][0]
+            if hash_zero_prefix == 0 or hash_zero_prefix > 8: # we'll use 0 as 1 here since we've excluded 0
+                continue
 
+            
             # Skip nonce prefix details that won't fit in 3 bits.
             prefix_info = min_prefixes(nonce_bytes, set_hashes)
             hash_one_prefix = prefix_info[1][0]
-            if hash_one_prefix == 0 or hash_one_prefix > 8: # we'll use 0 as 1 here since we've excluded 0
+            
+            if hash_one_prefix < 3 or hash_one_prefix > 8: # we'll use 0 as 1 here since we've excluded 0
                 continue
+            
                 
             # Todo: Check that hash[1] + hash[2] prefix >= 8.
+            
             hash_two_prefix = prefix_info[2][0]
-            if hash_two_prefix > 7:
+
+
+            if hash_two_prefix < 3 or hash_two_prefix > 8:
                 continue
+
+
+            hash_three_prefix = prefix_info[3][0]
+            if hash_three_prefix > 8:
+                continue
+            
+            #if hash_zero_prefix + hash_one_prefix + hash_two_prefix < 7:
+            #    continue
+
+            #if hash_zero_prefix != 2:
+            #    continue
+            
                 
 
             """
             if hash_two_prefix < 5:
                 continue
-                hash_zero_prefix = prefix_info[0][0]
                 if hash_zero_prefix < 1:
                     continue
             """
 
             
             # Save nonce    
-            result += [hash_one_prefix, hash_two_prefix]
+            result += [hash_zero_prefix, hash_one_prefix, hash_two_prefix, hash_three_prefix]
             results.append(result)
             nonce_saved = 1
             break

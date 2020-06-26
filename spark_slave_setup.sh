@@ -33,7 +33,7 @@ tar -xvzf "spark-2.4.5-bin-hadoop2.7.tgz"
 cd spark-2.4.5-bin-hadoop2.7/sbin
 
 screen -S spark_slave
-./start-slave.sh spark://220.253.17.133:7077
+./start-slave.sh spark://your_ip_here:7077
 
-# https://pastebin.com/raw/za9virxX
+
 
