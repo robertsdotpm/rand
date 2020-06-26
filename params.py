@@ -173,7 +173,7 @@ p=8, b=1, f=7, c=16, n=1 failed
 p=16, b=1, f=4, c=16, n=1 failed
 p=128, b=2, f=5, c=16, n=3  failed
 
-// Prefixes could be compressed -- permutations n = 5, r = 3, = 32 or 5 bits -- discard 1,2,8.
+// Prefixes could be compressed -- permutations n = 5, r = 3, = 60 or 6 bits -- discard 1,2,8.
 // that leaves 8 bits for offsets. Do offset calculations then see if those can be compressed. possibly it might fit
 // fixing one of the prefixes in the code would require only 20 (r = 2) or 5 bits -- additional bit left for offsets:
     // 2 bits for Q, 7 bits for R. q = 100.
